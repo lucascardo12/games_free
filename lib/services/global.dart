@@ -6,15 +6,19 @@ import 'package:games_free/services/notificaion.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class Global extends GetxService {
   List listStores = [].obs;
   final notf = Get.find<NotificFCM>();
   var api = ApiCheapShark();
+  late PackageInfo packageInfo;
+
   late Box box;
   Future<Global> inicia() async {
     await Hive.initFlutter();
     box = await Hive.openBox('global');
+    packageInfo = await PackageInfo.fromPlatform();
     getStore();
     return this;
   }
