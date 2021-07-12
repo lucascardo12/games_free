@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:games_free/controllers/game-controller.dart';
 import 'package:get/get.dart';
@@ -17,13 +19,15 @@ class GamePage extends GetView {
         builder: (controller) {
           if (ct.jogo.info != null) {
             return ListView(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               children: [
+                SizedBox(height: 10),
                 Image.network(
                   ct.jogo.info!.thumb ?? '',
-                  width: 200,
-                  height: 300,
+                  fit: BoxFit.fill,
+                  isAntiAlias: true,
                 ),
+                SizedBox(height: 10),
                 Container(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(

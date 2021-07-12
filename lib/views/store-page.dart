@@ -7,12 +7,14 @@ class StorePage extends GetView {
   final ct = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
-    return Obx(() => ListView.builder(
+    return Obx(
+      () => ListView.builder(
         itemCount: ct.gb.listStores.length,
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.symmetric(horizontal: 20),
         itemBuilder: (BuildContext context, int inex) {
           Stores of = ct.gb.listStores[inex];
           return ListTile(
+            dense: true,
             contentPadding: EdgeInsets.symmetric(vertical: 10),
             title: Text(
               of.storeName,
@@ -21,6 +23,8 @@ class StorePage extends GetView {
             trailing: Image.network('https://www.cheapshark.com/${of.images!.logo}'),
             onTap: () => null,
           );
-        }));
+        },
+      ),
+    );
   }
 }
