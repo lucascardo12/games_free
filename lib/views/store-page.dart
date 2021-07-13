@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:games_free/controllers/home-controller.dart';
 import 'package:games_free/models/store.dart';
@@ -20,7 +21,14 @@ class StorePage extends GetView {
               of.storeName,
               style: Theme.of(context).textTheme.headline6,
             ),
-            trailing: Image.network('https://www.cheapshark.com/${of.images!.logo}'),
+            trailing: CachedNetworkImage(
+              imageUrl: 'https://www.cheapshark.com/${of.images!.logo}',
+              progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(
+                value: downloadProgress.progress,
+                color: Get.theme.accentColor,
+              ),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
             onTap: () => null,
           );
         },

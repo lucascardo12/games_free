@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:games_free/controllers/game-controller.dart';
 import 'package:get/get.dart';
@@ -22,10 +23,14 @@ class GamePage extends GetView {
               padding: EdgeInsets.symmetric(horizontal: 20),
               children: [
                 SizedBox(height: 10),
-                Image.network(
-                  ct.jogo.info!.thumb ?? '',
+                CachedNetworkImage(
+                  imageUrl: ct.jogo.info!.thumb ?? '',
                   fit: BoxFit.fill,
-                  isAntiAlias: true,
+                  progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(
+                    value: downloadProgress.progress,
+                    color: Get.theme.accentColor,
+                  ),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
                 SizedBox(height: 10),
                 Container(
@@ -50,7 +55,15 @@ class GamePage extends GetView {
                     return ListTile(
                       title: Text('\$${e.price}'),
                       subtitle: Text(ct.gb.retornaNomeLoja(idLoja: e.storeID ?? '')),
-                      trailing: Image.network(ct.gb.retornaLogoLoja(idLoja: e.storeID ?? '')),
+                      trailing: CachedNetworkImage(
+                        imageUrl: ct.gb.retornaLogoLoja(idLoja: e.storeID ?? ''),
+                        progressIndicatorBuilder: (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                          value: downloadProgress.progress,
+                          color: Get.theme.accentColor,
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
                       onTap: () => launch(ct.retornaUrlLoja(oferta: e)),
                     );
                   }).toList(),

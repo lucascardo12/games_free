@@ -31,43 +31,49 @@ class HomePage extends GetView {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    SizedBox(
+                      height: 1,
+                    ),
                     Text(
-                      'Menu',
+                      ct.gb.packageInfo.appName,
                       style: Theme.of(context).textTheme.headline6!,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Obx(() => MenuTop(
-                              label: 'Free',
-                              index: ct.index.value == 0,
-                              icon: Icons.free_breakfast,
-                              onpress: () => ct.index.value = 0,
-                            )),
-                        Obx(() => MenuTop(
-                              label: 'Ofertas',
-                              icon: Icons.offline_bolt,
-                              index: ct.index.value == 1,
-                              onpress: () => ct.index.value = 1,
-                            )),
-                        Obx(() => MenuTop(
-                              label: 'Lojas',
-                              icon: Icons.store,
-                              index: ct.index.value == 2,
-                              onpress: () => ct.index.value = 2,
-                            )),
-                        Obx(() => MenuTop(
-                              label: 'Config',
-                              icon: Icons.settings,
-                              index: ct.index.value == 3,
-                              onpress: () => ct.index.value = 3,
-                            ))
-                      ],
+                    Obx(
+                      () => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          MenuTop(
+                            label: 'Free',
+                            index: ct.index.value == 0,
+                            icon: Icons.free_breakfast,
+                            onpress: () => ct.index.value = 0,
+                          ),
+                          MenuTop(
+                            label: 'Ofertas',
+                            icon: Icons.offline_bolt,
+                            index: ct.index.value == 1,
+                            onpress: () => ct.index.value = 1,
+                          ),
+                          MenuTop(
+                            label: 'Lojas',
+                            icon: Icons.store,
+                            index: ct.index.value == 2,
+                            onpress: () => ct.index.value = 2,
+                          ),
+                          MenuTop(
+                            label: 'Config',
+                            icon: Icons.settings,
+                            index: ct.index.value == 3,
+                            onpress: () => ct.index.value = 3,
+                          )
+                        ],
+                      ),
                     )
                   ],
                 ),
               )),
-          Obx(() => Expanded(
+          Obx(
+            () => Expanded(
               flex: 5,
               child: Container(
                 padding: EdgeInsets.only(top: 10),
@@ -79,7 +85,9 @@ class HomePage extends GetView {
                 ].elementAt(
                   ct.index.value,
                 ),
-              ))),
+              ),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: Container(
