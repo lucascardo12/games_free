@@ -55,4 +55,24 @@ class Global extends GetxService {
       await box.put('token', false);
     }
   }
+
+  Map<String, String> linkLojas = {
+    "1": 'https://store.steampowered.com',
+    "2": 'https://www.gamersgate.com',
+    "3": 'https://www.greenmangaming.com',
+    "6": 'https://www.direct2drive.com',
+    "7": 'https://www.gog.com',
+    "8": 'https://www.origin.com',
+    "11": 'https://www.humblebundle.com',
+    "15": 'https://www.fanatical.com',
+    "21": 'https://www.wingamestore.com',
+    "23": 'https://www.gamebillet.com',
+    "24": 'https://www.voidu.com',
+    "25": 'https://www.epicgames.com',
+    "27": 'https://www.gamesplanet.com',
+    "28": 'https://www.gamesload.com',
+    "29": 'https://www.2game.com',
+    "30": 'https://www.indiegala.com',
+    "32": 'https://www.allyouplay.com',
+  };
 }
