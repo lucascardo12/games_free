@@ -19,7 +19,7 @@ class Global extends GetxService {
     await Hive.initFlutter();
     box = await Hive.openBox('global');
     packageInfo = await PackageInfo.fromPlatform();
-    getStore();
+    await getStore();
     return this;
   }
 
