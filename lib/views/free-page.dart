@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:games_free/controllers/free-controller.dart';
 import 'package:games_free/models/ofertas.dart';
@@ -22,9 +23,16 @@ class FreePage extends GetView {
                     ),
                     child: ListTile(
                       onTap: () => Get.toNamed('/game', arguments: of),
-                      leading: Image.network(
-                        of.thumb ?? '',
+                      leading: CachedNetworkImage(
+                        imageUrl: of.thumb ?? '',
+                        progressIndicatorBuilder: (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                          value: downloadProgress.progress,
+                          color: Get.theme.accentColor,
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                         height: 100,
+                        fit: BoxFit.fill,
                       ),
                       title: Text(
                         of.title ?? '',

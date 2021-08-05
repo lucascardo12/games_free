@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:games_free/controllers/free-controller.dart';
 import 'package:games_free/services/global.dart';
 import 'package:get/get.dart';
 
 class ConfigPage extends GetView {
   final gb = Get.find<Global>();
-  //final ct = Get.put(FreeController());
   @override
   Widget build(BuildContext context) {
     return ListView(
