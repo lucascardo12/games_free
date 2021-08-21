@@ -12,4 +12,10 @@ class HomeController extends GetxController {
     admob.banner.load();
     super.onInit();
   }
+
+  @override
+  void dispose() {
+    admob.banner.dispose();
+    super.dispose();
+  }
 }

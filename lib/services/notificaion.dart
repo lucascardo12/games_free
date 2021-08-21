@@ -55,7 +55,6 @@ class NotificFCM extends GetxService {
   }
 
   void setToken(String? ptoken) {
-    print('FCM Token: $token');
     token = ptoken ?? "";
   }
 
@@ -86,5 +85,6 @@ class NotificFCM extends GetxService {
     await FirebaseMessaging.instance.getToken().then(setToken);
     tokenStream = FirebaseMessaging.instance.onTokenRefresh;
     tokenStream.listen(setToken);
+    print('FCM Token: $token');
   }
 }

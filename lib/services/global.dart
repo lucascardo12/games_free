@@ -46,13 +46,13 @@ class Global extends GetxService {
     if (box.get('token', defaultValue: true)) {
       await notf.gettoken();
       var apiMongodb = ApiMongoDB();
-      apiMongodb.insertUpdate(
+      var retorno = await apiMongodb.insertUpdate(
         tabela: 'Devices',
         objeto: Users(
           token: notf.token ?? '',
         ),
       );
-      await box.put('token', false);
+      box.put('token', retorno);
     }
   }
 
