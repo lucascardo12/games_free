@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Games Free',
       theme: ThemeData.dark().copyWith(
-        accentColor: Colors.deepPurple.shade600,
+        appBarTheme: AppBarTheme.of(context).copyWith(backgroundColor: Colors.deepPurple.shade600),
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.deepPurple.shade600),
       ),
       initialRoute: '/home',
       getPages: [

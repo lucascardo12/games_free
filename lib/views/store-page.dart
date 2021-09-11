@@ -26,7 +26,7 @@ class StorePage extends GetView {
               imageUrl: 'https://www.cheapshark.com/${of.images!.logo}',
               progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(
                 value: downloadProgress.progress,
-                color: Get.theme.accentColor,
+                color: Get.theme.colorScheme.secondary,
               ),
               errorWidget: (context, url, error) => Icon(Icons.error),
             ),

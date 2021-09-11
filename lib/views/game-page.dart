@@ -26,7 +26,7 @@ class GamePage extends GetView {
                   fit: BoxFit.fill,
                   progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(
                     value: downloadProgress.progress,
-                    color: Get.theme.accentColor,
+                    color: Get.theme.colorScheme.secondary,
                   ),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
@@ -35,7 +35,7 @@ class GamePage extends GetView {
                     padding: EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.deepPurple.shade600,
+                      color: Get.theme.colorScheme.secondary,
                     ),
                     child: Text(
                       'Ofertas',
@@ -58,7 +58,7 @@ class GamePage extends GetView {
                         progressIndicatorBuilder: (context, url, downloadProgress) =>
                             CircularProgressIndicator(
                           value: downloadProgress.progress,
-                          color: Get.theme.accentColor,
+                          color: Get.theme.colorScheme.secondary,
                         ),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
@@ -71,7 +71,7 @@ class GamePage extends GetView {
           } else {
             return Center(
                 child: CircularProgressIndicator(
-              color: Colors.deepPurple.shade600,
+              color: Get.theme.colorScheme.secondary,
             ));
           }
         },

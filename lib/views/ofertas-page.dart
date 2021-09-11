@@ -28,7 +28,7 @@ class OfertaPage extends GetView {
                         progressIndicatorBuilder: (context, url, downloadProgress) =>
                             CircularProgressIndicator(
                           value: downloadProgress.progress,
-                          color: Get.theme.accentColor,
+                          color: Get.theme.colorScheme.secondary,
                         ),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                         height: 100,

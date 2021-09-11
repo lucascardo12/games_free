@@ -28,7 +28,7 @@ class FreePage extends GetView {
                         progressIndicatorBuilder: (context, url, downloadProgress) =>
                             CircularProgressIndicator(
                           value: downloadProgress.progress,
-                          color: Get.theme.accentColor,
+                          color: Get.theme.colorScheme.secondary,
                         ),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                         height: 100,
@@ -47,7 +47,7 @@ class FreePage extends GetView {
               })
           : Center(
               child: CircularProgressIndicator(
-              color: Colors.deepPurple.shade600,
+              color: Get.theme.colorScheme.secondary,
             )),
     );
   }
