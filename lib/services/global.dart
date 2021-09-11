@@ -57,7 +57,9 @@ class Global extends GetxService {
             token: notf.token ?? '',
           ),
         );
-        box.put('token', retorno);
+        box.put('token', !retorno);
+      } else {
+        box.put('token', false);
       }
     }
   }

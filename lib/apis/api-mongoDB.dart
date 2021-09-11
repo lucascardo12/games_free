@@ -61,7 +61,7 @@ class ApiMongoDB extends GetConnect {
       headers['formatDb'] = formatDb;
       headers['hostDb'] = hostDb;
       headers['loginDb'] = loginDb;
-      headers['selector'] = selector;
+      headers['selector'] = jsonEncode(selector);
       headers['tabela'] = tabela;
       headers['login'] = loginApi;
       headers['senha'] = senhaApi;
