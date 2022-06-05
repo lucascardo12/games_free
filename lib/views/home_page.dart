@@ -1,28 +1,50 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:games_free/controllers/home-controller.dart';
-import 'package:games_free/views/config-page.dart';
-import 'package:games_free/views/free-page.dart';
-import 'package:games_free/views/ofertas-page.dart';
-import 'package:games_free/views/store-page.dart';
-import 'package:games_free/widgets/menuTop.dart';
-import 'package:get/get.dart';
+import 'package:games_free/controllers/home_controller.dart';
+import 'package:games_free/main.dart';
+import 'package:games_free/views/config_page.dart';
+import 'package:games_free/views/free_page.dart';
+import 'package:games_free/views/ofertas_page.dart';
+import 'package:games_free/views/store_page.dart';
+import 'package:games_free/widgets/menu_top.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
-class HomePage extends GetView {
-  final ct = Get.put(HomeController());
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final ct = di.get<HomeController>();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) => ct.init(context),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    ct.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
+          const SizedBox(height: 10),
           Expanded(
               flex: 2,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
                   color: Colors.deepPurple.shade600,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(25),
                     bottomRight: Radius.circular(25),
                   ),
@@ -31,15 +53,16 @@ class HomePage extends GetView {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 1,
                     ),
                     Text(
                       ct.gb.packageInfo.appName,
                       style: Theme.of(context).textTheme.headline6!,
                     ),
-                    Obx(
-                      () => Row(
+                    ValueListenableBuilder(
+                      valueListenable: ct.index,
+                      builder: (context, value, child) => Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           MenuTop(
@@ -72,16 +95,17 @@ class HomePage extends GetView {
                   ],
                 ),
               )),
-          Obx(
-            () => Expanded(
+          ValueListenableBuilder(
+            valueListenable: ct.index,
+            builder: (context, value, child) => Expanded(
               flex: 5,
               child: Container(
-                padding: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: [
-                  FreePage(),
-                  OfertaPage(),
-                  StorePage(),
-                  ConfigPage(),
+                  const FreePage(),
+                  const OfertaPage(),
+                  const StorePage(),
+                  const ConfigPage(),
                 ].elementAt(
                   ct.index.value,
                 ),
@@ -90,11 +114,31 @@ class HomePage extends GetView {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        height: 50,
-        width: Get.width,
-        child: AdWidget(
-          ad: ct.admob.banner,
+      bottomNavigationBar: SizedBox(
+        height: 70,
+        child: FutureBuilder<BannerAd>(
+          future: ct.admob.loadBanner(
+            adUnitId: ct.admob.bannerAdUnitId,
+          ),
+          builder: (context, value) {
+            if (value.hasError) {
+              return Row(
+                children: const [
+                  Center(
+                    child: Text('Erro na propaganda'),
+                  ),
+                ],
+              );
+            }
+            if (value.hasData) {
+              return AdWidget(
+                ad: value.data!,
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         ),
       ),
     );
