@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:games_free/services/adMob.dart';
-import 'package:games_free/services/global.dart';
-import 'package:games_free/services/notificaion.dart';
-import 'package:games_free/views/game-page.dart';
-import 'package:games_free/views/home-page.dart';
-import 'package:get/get.dart';
+import 'package:games_free/controllers/controllers_module.dart';
+import 'package:games_free/services/service_module.dart';
+import 'package:games_free/views/game_page.dart';
+import 'package:games_free/views/home_page.dart';
+import 'package:get_it/get_it.dart';
 
+GetIt di = GetIt.instance;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Get.putAsync(() => NotificFCM().inicia());
-  await Get.putAsync(() => AdMob().inicia());
-  await Get.putAsync(() => Global().inicia());
-  runApp(MyApp());
+  ServiceModule().register();
+  ControllersModule().register();
+  await ServiceModule().start();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Games Free',
       theme: ThemeData.dark().copyWith(
@@ -25,16 +27,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.deepPurple.shade600),
       ),
       initialRoute: '/home',
-      getPages: [
-        GetPage(
-          name: '/home',
-          page: () => HomePage(),
-        ),
-        GetPage(
-          name: '/game',
-          page: () => GamePage(),
-        ),
-      ],
+      routes: {
+        '/home': (context) => const HomePage(),
+        '/game': (context) => const GamePage(),
+      },
     );
   }
 }
