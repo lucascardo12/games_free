@@ -6,27 +6,27 @@ class Games {
   Games({this.info, this.cheapestPriceEver, this.deals});
 
   Games.fromJson(Map<String, dynamic> json) {
-    info = json['info'] != null ? new Info.fromJson(json['info']) : null;
+    info = json['info'] != null ? Info.fromJson(json['info']) : null;
     cheapestPriceEver =
-        json['cheapestPriceEver'] != null ? new CheapestPriceEver.fromJson(json['cheapestPriceEver']) : null;
+        json['cheapestPriceEver'] != null ? CheapestPriceEver.fromJson(json['cheapestPriceEver']) : null;
     if (json['deals'] != null) {
       deals = [];
       json['deals'].forEach((v) {
-        deals!.add(new Deals.fromJson(v));
+        deals!.add(Deals.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.info != null) {
-      data['info'] = this.info!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (info != null) {
+      data['info'] = info!.toJson();
     }
-    if (this.cheapestPriceEver != null) {
-      data['cheapestPriceEver'] = this.cheapestPriceEver!.toJson();
+    if (cheapestPriceEver != null) {
+      data['cheapestPriceEver'] = cheapestPriceEver!.toJson();
     }
-    if (this.deals != null) {
-      data['deals'] = this.deals!.map((v) => v.toJson()).toList();
+    if (deals != null) {
+      data['deals'] = deals!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -46,10 +46,10 @@ class Info {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['steamAppID'] = this.steamAppID;
-    data['thumb'] = this.thumb;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['title'] = title;
+    data['steamAppID'] = steamAppID;
+    data['thumb'] = thumb;
     return data;
   }
 }
@@ -66,9 +66,9 @@ class CheapestPriceEver {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['price'] = this.price;
-    data['date'] = this.date;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['price'] = price;
+    data['date'] = date;
     return data;
   }
 }
@@ -91,12 +91,12 @@ class Deals {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['storeID'] = this.storeID;
-    data['dealID'] = this.dealID;
-    data['price'] = this.price;
-    data['retailPrice'] = this.retailPrice;
-    data['savings'] = this.savings;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['storeID'] = storeID;
+    data['dealID'] = dealID;
+    data['price'] = price;
+    data['retailPrice'] = retailPrice;
+    data['savings'] = savings;
     return data;
   }
 }

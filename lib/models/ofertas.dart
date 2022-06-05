@@ -10,10 +10,10 @@ class Ofertas {
   String? isOnSale;
   String? savings;
   String? metacriticScore;
-  var steamRatingText;
+  dynamic steamRatingText;
   String? steamRatingPercent;
   String? steamRatingCount;
-  var steamAppID;
+  dynamic steamAppID;
   int? releaseDate;
   int? lastChange;
   String? dealRating;
@@ -63,26 +63,26 @@ class Ofertas {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['internalName'] = this.internalName;
-    data['title'] = this.title;
-    data['metacriticLink'] = this.metacriticLink;
-    data['dealID'] = this.dealID;
-    data['storeID'] = this.storeID;
-    data['gameID'] = this.gameID;
-    data['salePrice'] = this.salePrice;
-    data['normalPrice'] = this.normalPrice;
-    data['isOnSale'] = this.isOnSale;
-    data['savings'] = this.savings;
-    data['metacriticScore'] = this.metacriticScore;
-    data['steamRatingText'] = this.steamRatingText;
-    data['steamRatingPercent'] = this.steamRatingPercent;
-    data['steamRatingCount'] = this.steamRatingCount;
-    data['steamAppID'] = this.steamAppID;
-    data['releaseDate'] = this.releaseDate;
-    data['lastChange'] = this.lastChange;
-    data['dealRating'] = this.dealRating;
-    data['thumb'] = this.thumb;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['internalName'] = internalName;
+    data['title'] = title;
+    data['metacriticLink'] = metacriticLink;
+    data['dealID'] = dealID;
+    data['storeID'] = storeID;
+    data['gameID'] = gameID;
+    data['salePrice'] = salePrice;
+    data['normalPrice'] = normalPrice;
+    data['isOnSale'] = isOnSale;
+    data['savings'] = savings;
+    data['metacriticScore'] = metacriticScore;
+    data['steamRatingText'] = steamRatingText;
+    data['steamRatingPercent'] = steamRatingPercent;
+    data['steamRatingCount'] = steamRatingCount;
+    data['steamAppID'] = steamAppID;
+    data['releaseDate'] = releaseDate;
+    data['lastChange'] = lastChange;
+    data['dealRating'] = dealRating;
+    data['thumb'] = thumb;
     return data;
   }
 }
