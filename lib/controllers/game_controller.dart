@@ -11,6 +11,17 @@ class GameController extends ChangeNotifier implements IController {
 
   GameController({required this.gb});
 
+  @override
+  void close() {
+    dispose();
+  }
+
+  @override
+  void init(BuildContext context) {
+    of = ModalRoute.of(context)!.settings.arguments as Ofertas;
+    getDetalheGame();
+  }
+
   void getDetalheGame() async {
     Map<String, dynamic> retorno = await gb.api.getGame(gameId: of.gameID ?? '');
     jogo = Games.fromJson(retorno);
@@ -74,15 +85,5 @@ class GameController extends ChangeNotifier implements IController {
         .replaceAll(':', '')
         .replaceAll('___', '_')
         .replaceAll('__', '_');
-  }
-
-  @override
-  void close() {
-    dispose();
-  }
-
-  @override
-  void init(BuildContext context) {
-    getDetalheGame();
   }
 }
