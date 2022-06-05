@@ -1,22 +1,20 @@
+import 'package:flutter/material.dart';
+import 'package:games_free/core/interfaces/controller_interface.dart';
 import 'package:games_free/models/games.dart';
 import 'package:games_free/models/ofertas.dart';
 import 'package:games_free/services/global.dart';
-import 'package:get/get.dart';
 
-class GameController extends GetxController {
-  Ofertas of = Get.arguments;
+class GameController extends ChangeNotifier implements IController {
+  final Global gb;
+  Ofertas of = Ofertas();
   Games jogo = Games();
-  final gb = Get.find<Global>();
-  @override
-  void onInit() {
-    getDetalheGame();
-    super.onInit();
-  }
 
-  getDetalheGame() async {
+  GameController({required this.gb});
+
+  void getDetalheGame() async {
     Map<String, dynamic> retorno = await gb.api.getGame(gameId: of.gameID ?? '');
     jogo = Games.fromJson(retorno);
-    update();
+    notifyListeners();
   }
 
   String retornaUrlLoja({required Deals oferta}) {
@@ -76,5 +74,15 @@ class GameController extends GetxController {
         .replaceAll(':', '')
         .replaceAll('___', '_')
         .replaceAll('__', '_');
+  }
+
+  @override
+  void close() {
+    dispose();
+  }
+
+  @override
+  void init(BuildContext context) {
+    getDetalheGame();
   }
 }
