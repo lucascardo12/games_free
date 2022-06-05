@@ -1,20 +1,20 @@
-import 'package:games_free/apis/api-cheapshark.dart';
-import 'package:games_free/apis/api-mongoDB.dart';
+import 'package:flutter/material.dart';
+import 'package:games_free/core/apis/api_cheapshark.dart';
 import 'package:games_free/models/store.dart';
-import 'package:games_free/models/users.dart';
 import 'package:games_free/services/notificaion.dart';
-import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-class Global extends GetxService {
-  List listStores = [].obs;
-  final notf = Get.find<NotificFCM>();
-  var api = ApiCheapShark();
+class Global {
+  final NotificFCM notf;
+  var listStores = ValueNotifier([]);
+  final ApiCheapShark api;
   late PackageInfo packageInfo;
 
   late Box box;
+
+  Global({required this.notf, required this.api});
+
   Future<Global> inicia() async {
     await Hive.initFlutter();
     box = await Hive.openBox('global');
@@ -24,44 +24,23 @@ class Global extends GetxService {
   }
 
   String retornaNomeLoja({required String idLoja}) {
-    return listStores.firstWhere((element) => element.storeID == idLoja).storeName;
+    return listStores.value.firstWhere((element) => element.storeID == idLoja).storeName;
   }
 
   String retornaLogoLoja({required String idLoja}) {
-    return 'https://www.cheapshark.com/' +
-        listStores.firstWhere((element) => element.storeID == idLoja).images.logo;
+    return api.host + listStores.value.firstWhere((element) => element.storeID == idLoja).images.logo;
   }
 
-  getStore() async {
-    await api.getStores().then((value) {
-      value.forEach(
-        (element) => listStores.add(
-          Stores.fromJson(element),
-        ),
-      );
-    });
-  }
-
-  gravaToken() async {
-    if (box.get('token', defaultValue: true)) {
-      await notf.gettoken();
-      var apiMongodb = ApiMongoDB();
-      var ret = await apiMongodb.getData(
-        tabela: 'Devices',
-        selector: {'token': notf.token},
-      );
-      if (ret.isEmpty) {
-        var retorno = await apiMongodb.insertUpdate(
-          tabela: 'Devices',
-          objeto: Users(
-            token: notf.token ?? '',
-          ),
-        );
-        box.put('token', !retorno);
-      } else {
-        box.put('token', false);
-      }
-    }
+  Future<void> getStore() async {
+    await api.getStores().then(
+      (value) {
+        for (var element in value) {
+          listStores.value.add(
+            Stores.fromJson(element),
+          );
+        }
+      },
+    );
   }
 
   Map<String, String> linkLojas = {

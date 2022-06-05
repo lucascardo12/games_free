@@ -1,10 +1,9 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-class NotificFCM extends GetxService {
+class NotificFCM {
   String? token;
   late Stream<String> tokenStream;
   Future<NotificFCM> inicia() async {
@@ -30,28 +29,8 @@ class NotificFCM extends GetxService {
     });
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
     firebaseMessaging();
+    await FirebaseMessaging.instance.subscribeToTopic('gratis');
     return this;
-  }
-
-  Future<void> showFullScreenNotification(
-      {required int id, required String title, required String body}) async {
-    AwesomeNotifications().createNotification(
-      content: NotificationContent(
-        id: id,
-        channelKey: 'Geral',
-        title: title,
-        body: body,
-      ),
-    );
-  }
-
-  void notificacaoDeToque() {
-    AwesomeNotifications().actionStream.listen((receivedNotification) {
-      Get.toNamed('/NotificationPage', arguments: {
-        "receive": receivedNotification
-      } // your page params. I recommend to you to pass all *receivedNotification* object
-          );
-    });
   }
 
   void setToken(String? ptoken) {
@@ -63,20 +42,23 @@ class NotificFCM extends GetxService {
     // make sure you call `initializeApp` before using other Firebase services.
     await Firebase.initializeApp();
 
-    print("Handling a background message: ${message.messageId}");
+    debugPrint("Handling a background message: ${message.messageId}");
   }
 
-  firebaseMessaging() {
+  void firebaseMessaging() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data['msgId']}');
+      debugPrint('Got a message whilst in the foreground!');
+
+      debugPrint('Message data: ${message.data['msgId']}');
 
       if (message.notification != null) {
-        showFullScreenNotification(
-            title: message.notification!.title!,
-            body: message.notification!.body!,
-            id: int.parse(message.data['msgId']));
-        print('Message also contained a notification: ${message.notification}');
+        showDefaltNotication(
+          title: message.notification!.title,
+          body: message.notification!.body,
+          id: DateTime.now().second,
+          imageUrl: message.notification!.android!.imageUrl,
+        );
+        debugPrint('Message also contained a notification: ${message.notification?.toMap()}');
       }
     });
   }
@@ -85,6 +67,25 @@ class NotificFCM extends GetxService {
     await FirebaseMessaging.instance.getToken().then(setToken);
     tokenStream = FirebaseMessaging.instance.onTokenRefresh;
     tokenStream.listen(setToken);
-    print('FCM Token: $token');
+    debugPrint('FCM Token: $token');
+  }
+
+  Future<void> showDefaltNotication({
+    required int id,
+    String? title,
+    String? body,
+    String? imageUrl,
+  }) async {
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: id,
+        channelKey: 'Geral',
+        title: title,
+        body: body,
+        largeIcon: imageUrl,
+        notificationLayout: NotificationLayout.BigText,
+        bigPicture: imageUrl,
+      ),
+    );
   }
 }
